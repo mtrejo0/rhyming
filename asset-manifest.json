@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/rhyming_frontend/static/css/main.635d6128.chunk.css",
-    "main.js": "/rhyming_frontend/static/js/main.400b290a.chunk.js",
-    "main.js.map": "/rhyming_frontend/static/js/main.400b290a.chunk.js.map",
-    "runtime-main.js": "/rhyming_frontend/static/js/runtime-main.04f48a57.js",
-    "runtime-main.js.map": "/rhyming_frontend/static/js/runtime-main.04f48a57.js.map",
+    "main.js": "/rhyming_frontend/static/js/main.290c8f45.chunk.js",
+    "main.js.map": "/rhyming_frontend/static/js/main.290c8f45.chunk.js.map",
+    "runtime-main.js": "/rhyming_frontend/static/js/runtime-main.3cc3616b.js",
+    "runtime-main.js.map": "/rhyming_frontend/static/js/runtime-main.3cc3616b.js.map",
     "static/css/2.27175f2b.chunk.css": "/rhyming_frontend/static/css/2.27175f2b.chunk.css",
-    "static/js/2.4be9dfb7.chunk.js": "/rhyming_frontend/static/js/2.4be9dfb7.chunk.js",
-    "static/js/2.4be9dfb7.chunk.js.map": "/rhyming_frontend/static/js/2.4be9dfb7.chunk.js.map",
-    "static/js/3.9c5aad17.chunk.js": "/rhyming_frontend/static/js/3.9c5aad17.chunk.js",
-    "static/js/3.9c5aad17.chunk.js.map": "/rhyming_frontend/static/js/3.9c5aad17.chunk.js.map",
+    "static/js/2.1efdc0da.chunk.js": "/rhyming_frontend/static/js/2.1efdc0da.chunk.js",
+    "static/js/2.1efdc0da.chunk.js.map": "/rhyming_frontend/static/js/2.1efdc0da.chunk.js.map",
+    "static/js/3.00864ffa.chunk.js": "/rhyming_frontend/static/js/3.00864ffa.chunk.js",
+    "static/js/3.00864ffa.chunk.js.map": "/rhyming_frontend/static/js/3.00864ffa.chunk.js.map",
     "index.html": "/rhyming_frontend/index.html",
     "static/css/2.27175f2b.chunk.css.map": "/rhyming_frontend/static/css/2.27175f2b.chunk.css.map",
     "static/css/main.635d6128.chunk.css.map": "/rhyming_frontend/static/css/main.635d6128.chunk.css.map",
-    "static/js/2.4be9dfb7.chunk.js.LICENSE.txt": "/rhyming_frontend/static/js/2.4be9dfb7.chunk.js.LICENSE.txt"
+    "static/js/2.1efdc0da.chunk.js.LICENSE.txt": "/rhyming_frontend/static/js/2.1efdc0da.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.04f48a57.js",
+    "static/js/runtime-main.3cc3616b.js",
     "static/css/2.27175f2b.chunk.css",
-    "static/js/2.4be9dfb7.chunk.js",
+    "static/js/2.1efdc0da.chunk.js",
     "static/css/main.635d6128.chunk.css",
-    "static/js/main.400b290a.chunk.js"
+    "static/js/main.290c8f45.chunk.js"
   ]
 }
