@@ -1,7 +1,7 @@
 import React from 'react'
 
-import FormZipCode from '../components/form_zip_code'
-import Reps from '../components/reps'
+import TextForm from '../components/text_form'
+import Results from '../components/results'
 
 import "../styles/home.css"
 
@@ -11,10 +11,8 @@ const Home = () => {
     
 
     return <div className='center'>
-        <h1>Grassroots</h1>
-        
-        <FormZipCode></FormZipCode>
-        <Reps></Reps>
+        <TextForm></TextForm>
+        <Results></Results>
     </div>
 }
 
