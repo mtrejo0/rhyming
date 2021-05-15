@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/rhyming_frontend/static/css/main.635d6128.chunk.css",
-    "main.js": "/rhyming_frontend/static/js/main.290c8f45.chunk.js",
-    "main.js.map": "/rhyming_frontend/static/js/main.290c8f45.chunk.js.map",
+    "main.js": "/rhyming_frontend/static/js/main.00428526.chunk.js",
+    "main.js.map": "/rhyming_frontend/static/js/main.00428526.chunk.js.map",
     "runtime-main.js": "/rhyming_frontend/static/js/runtime-main.3cc3616b.js",
     "runtime-main.js.map": "/rhyming_frontend/static/js/runtime-main.3cc3616b.js.map",
     "static/css/2.27175f2b.chunk.css": "/rhyming_frontend/static/css/2.27175f2b.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.27175f2b.chunk.css",
     "static/js/2.1efdc0da.chunk.js",
     "static/css/main.635d6128.chunk.css",
-    "static/js/main.290c8f45.chunk.js"
+    "static/js/main.00428526.chunk.js"
   ]
 }
