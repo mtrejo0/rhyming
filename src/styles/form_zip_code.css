@@ -1,0 +1,21 @@
+.text-input {
+    margin: 8px;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subform {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .form {
+        flex-direction: column;
+    }
+}
