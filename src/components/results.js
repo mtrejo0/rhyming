@@ -29,8 +29,8 @@ class Results extends React.Component {
   getResults(text) {
     this.setState({loading: true})
     axios
-      // .get(`https://frozen-brook-43368.herokuapp.com/reps/${zip_code}`)
-      .get(`http://localhost:5000/rhymes/${text}`)
+      // .get(`http://localhost:5000/rhymes/${text}`)
+      .get(`https://mysterious-sierra-59283.herokuapp.com/rhymes/${text}`)
       .then((res) => {
         console.log(res.data)
         this.setState({results: res.data.rhyme})
