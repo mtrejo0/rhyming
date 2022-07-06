@@ -21,7 +21,6 @@ code {
 
 .next {
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
@@ -42,5 +41,9 @@ code {
   border: none;
   display: inline-block;
   cursor: pointer;
+  margin: 16px;
+}
+
+.margin16 {
   margin: 16px;
 }
