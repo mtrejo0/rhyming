@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from api import *
+from lambda_function import *
 
 api = API()
 
@@ -18,21 +18,15 @@ def main():
 @app.route('/rhymes', methods = ['POST', 'GET'])
 def rhymes():
     if request.method == 'POST':
-        song_bits = request.json['song_bits']
-        text = " ".join(song_bits)
+        text = request.json['text']
 
-        rhyme = api.get_rhymes(text)
-        frequency = api.get_frequency(text)
-        bars = api.get_syllable_breaks(text)
+        rhymes =  api.get_rhymes(text)
 
         response = {
             "message": "Rhyme info!",
-            'rhyme': {
-                'length': len(text.split()),
-                'rhyme': rhyme,
-                'frequency': frequency,
-                'bars': bars
-            }
+            'rhymes':  api.get_rhymes(text),
+            "colors": api.get_rhymes_colors(text,rhymes),
+            "syllables": api.get_syllable_breaks(text)
         }
         return jsonify(response)
 
