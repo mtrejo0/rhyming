@@ -39,7 +39,7 @@ Whistling to the melody, couldn't think of a better D
 Better be on your P and Q, it's just me, Jay Rock, Soul, and Q
 Solar system and barbecue, nothing else you can do`
   );
-  const [result, setResult] = useState<any>();
+  const [result, setResult] = useState<{ colors: any }>();
   const [loading, setLoading] = useState(false);
 
   const getRhymes = async () => {
@@ -86,44 +86,55 @@ Solar system and barbecue, nothing else you can do`
     return color;
   }, []);
 
-  const getAllRhymes = (word: string) => {
-    const color = result?.colors[word];
+  const getAllRhymes = useCallback(
+    (word: string) => {
+      const color = result?.colors[word];
 
-    const words = [];
+      const words = [];
 
-    for (const key in result?.colors) {
-      if (result?.colors[key] === color) {
-        words.push(key);
+      for (const key in result?.colors) {
+        if (result?.colors[key] === color) {
+          words.push(key);
+        }
       }
-    }
 
-    return words.join(",  ");
+      return words.join(",  ");
+    },
+    [result]
+  );
+
+  const addWord = (word: string) => {
+    if (!shiftDown) return;
+
+    setWordsCombine((s) => s.add(word));
   };
 
-  const normalizeColors = useCallback(() => {
-    setResult((s: any) => {
-      const wordList = Array.from(wordsCombine);
-      const colorToMapTo = s?.colors[wordList[0]] ?? getRandomColor();
+  const normalizeColors = useCallback(
+    (wordList: string[]) => {
+      setResult((s: any) => {
+        const colorsCopy = { ...s?.colors };
 
-      const colorsCopy = { ...s?.colors };
+        const colorToMapTo = colorsCopy[wordList[0]] ?? getRandomColor();
 
-      for (const i in wordList) {
-        if (!colorsCopy[wordList[i]]) {
-          colorsCopy[wordList[i]] = colorToMapTo;
+        for (const i in wordList) {
+          if (!colorsCopy[wordList[i]]) {
+            colorsCopy[wordList[i]] = colorToMapTo;
+          }
         }
-      }
 
-      const colorsToOverride = wordList.map((each) => colorsCopy[each]);
-      for (const key in colorsCopy) {
-        if (colorsToOverride.includes(s?.colors[key])) {
-          colorsCopy[key] = colorToMapTo;
+        const colorsToOverride = wordList.map((each) => colorsCopy[each]);
+
+        for (const key in colorsCopy) {
+          if (colorsToOverride.includes(colorsCopy[key])) {
+            colorsCopy[key] = colorToMapTo;
+          }
         }
-      }
-      return { ...s, colors: colorsCopy };
-    });
 
-    console.log("triggered");
-  }, [getRandomColor, wordsCombine]);
+        return { ...s, colors: colorsCopy };
+      });
+    },
+    [getRandomColor]
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", function (event) {
@@ -135,19 +146,14 @@ Solar system and barbecue, nothing else you can do`
     document.addEventListener("keyup", function (event) {
       if (event.key === "a") {
         setShiftDown(false);
-        normalizeColors();
-        setWordsCombine(new Set());
+
+        setWordsCombine((words) => {
+          normalizeColors(Array.from(words));
+          return new Set();
+        });
       }
     });
-  }, [normalizeColors, setShiftDown, setWordsCombine]);
-
-  const addWord = (word: string) => {
-    if (!shiftDown) return;
-
-    setWordsCombine((s) => s.add(word));
-
-    console.log(wordsCombine);
-  };
+  }, [normalizeColors]);
 
   return (
     <Box sx={{ margin: "32px" }}>
@@ -168,7 +174,7 @@ Solar system and barbecue, nothing else you can do`
 
       <p>Hold A and click two words to highlight them as the same rhyme!</p>
       {loading && <p>Loading ...</p>}
-      <Box m={4}>
+      <Box m={4} key={JSON.stringify(result)}>
         {getLines().map((line, i) => {
           return (
             <Stack
@@ -182,7 +188,6 @@ Solar system and barbecue, nothing else you can do`
                 if (result?.colors?.[each]) {
                   c = result?.colors?.[each];
                 }
-                const highlighted = wordsCombine.has(each);
                 return (
                   <Grid
                     xs={2}
@@ -190,10 +195,10 @@ Solar system and barbecue, nothing else you can do`
                     sx={{
                       background: c,
                       borderRadius: 1,
-                      border: highlighted ? null : "1px solid black",
+                      border: "1px solid black",
                       cursor: "pointer",
                     }}
-                    key={each + i + Math.random() + c + highlighted}
+                    key={each + i + Math.random() + c}
                   >
                     <Tooltip title={getAllRhymes(each)}>
                       <Box
