@@ -1,21 +1,61 @@
-import { Box, Button, Grid, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Grid, Stack, TextField, Tooltip } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 function App() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(
+    `Alright, here we go, third take
+Real quick, Ali
+Mmm
+Got me breathing with dragons
+I'll crack the egg in your basket, you bastard
+I'm Marilyn Manson with madness
+Now just imagine the magic I light to asses
+Don't ask for your favorite rapper
+(He dead), yes, sir (amen), church
+(He dead), I killed him (amen), bitch
+And this is rigor mortis, and it's gorgeous when you die
+Ali recorded, and I'm Morpheus, the matrix of my mind
+I'm out the orbit, you an orphan and a hairdresser combined
+I'm on the toilet when I rhyme, if you the shit, then I decline
+I climax where you begin, and then I end on cloud nine
+And that's important when you morph into an angel in the sky
+And don't be forging all my signatures, my listeners reply
+And tell me that you biting style, you got a hell of an appetite
+And I'ma be here for a while, just buckle up before the ride
+Or knuckle up if you can fight, we always making 'em duck or die
+A suit and tie is suitable and usual in suicide
+CSI just might investigate this fucking parasite
+(He dead, amen)
+That's what they telling me
+Aim it at your celebrity, this is studio felony
+Ferragami so many and cool enough for the '70s
+Nigga, payback's a bitch, and bitch, you been livin' in debt with me
+Dead 'em all and especially
+Leave a call on his mother voicemail that say that he rest in peace
+Bigger chopper the recipe
+Wrestling? That's irrelevant, rather rest at your residence
+Whistling to the melody, couldn't think of a better D
+Better be on your P and Q, it's just me, Jay Rock, Soul, and Q
+Solar system and barbecue, nothing else you can do`
+  );
   const [result, setResult] = useState<any>();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const getRhymes = async () => {
     const bodyContent = { text };
-    setLoading(true)
+    setLoading(true);
 
-    await axios.post("https://vo42dkc6z2.execute-api.us-east-2.amazonaws.com/dev", bodyContent).then((res) => {
-
-      setResult(res.data.body);
-    }).catch( (err) => console.warn(err))
-    .then(() => setLoading(false))
+    await axios
+      .post(
+        "https://vo42dkc6z2.execute-api.us-east-2.amazonaws.com/dev",
+        bodyContent
+      )
+      .then((res) => {
+        setResult(res.data.body);
+      })
+      .catch((err) => console.warn(err))
+      .then(() => setLoading(false));
   };
 
   const getLines = () => {
@@ -31,6 +71,84 @@ function App() {
     );
   };
 
+  const [shiftDown, setShiftDown] = useState(false);
+  const [wordsCombine, setWordsCombine] = useState<Set<string>>(new Set());
+
+  const getRandomColor = useCallback(() => {
+    const letters: string = "0123456789ABCDEF";
+    let color: string = "#";
+    for (let i: number = 0; i < 3; i++) {
+      color += letters[Math.floor(Math.random() * 6) + 3];
+    }
+    for (let i: number = 0; i < 3; i++) {
+      color += letters[Math.floor(Math.random() * 6) + 9];
+    }
+    return color;
+  }, []);
+
+  const getAllRhymes = (word: string) => {
+    const color = result?.colors[word];
+
+    const words = [];
+
+    for (const key in result?.colors) {
+      if (result?.colors[key] === color) {
+        words.push(key);
+      }
+    }
+
+    return words.join(",  ");
+  };
+
+  const normalizeColors = useCallback(() => {
+    setResult((s: any) => {
+      const wordList = Array.from(wordsCombine);
+      const colorToMapTo = s?.colors[wordList[0]] ?? getRandomColor();
+
+      const colorsCopy = { ...s?.colors };
+
+      for (const i in wordList) {
+        if (!colorsCopy[wordList[i]]) {
+          colorsCopy[wordList[i]] = colorToMapTo;
+        }
+      }
+
+      const colorsToOverride = wordList.map((each) => colorsCopy[each]);
+      for (const key in colorsCopy) {
+        if (colorsToOverride.includes(s?.colors[key])) {
+          colorsCopy[key] = colorToMapTo;
+        }
+      }
+      return { ...s, colors: colorsCopy };
+    });
+
+    console.log("triggered");
+  }, [getRandomColor, wordsCombine]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "a") {
+        setShiftDown(true);
+      }
+    });
+
+    document.addEventListener("keyup", function (event) {
+      if (event.key === "a") {
+        setShiftDown(false);
+        normalizeColors();
+        setWordsCombine(new Set());
+      }
+    });
+  }, [normalizeColors, setShiftDown, setWordsCombine]);
+
+  const addWord = (word: string) => {
+    if (!shiftDown) return;
+
+    setWordsCombine((s) => s.add(word));
+
+    console.log(wordsCombine);
+  };
+
   return (
     <Box sx={{ margin: "32px" }}>
       <TextField
@@ -40,30 +158,55 @@ function App() {
         fullWidth
         label="Add your lyrics!"
       ></TextField>
-      <Button onClick={async () => await getRhymes()} variant="contained" sx={{ mt: 2 }}>
+      <Button
+        onClick={async () => await getRhymes()}
+        variant="contained"
+        sx={{ mt: 2 }}
+      >
         Submit
       </Button>
+
+      <p>Hold A and click two words to highlight them as the same rhyme!</p>
       {loading && <p>Loading ...</p>}
       <Box m={4}>
-        {getLines().map((line) => {
+        {getLines().map((line, i) => {
           return (
-            <Stack direction="row" spacing={1} key={line.toString()}>
+            <Stack
+              direction="row"
+              spacing={1}
+              key={line.toString() + i}
+              sx={{ marginTop: "8px" }}
+            >
               {line.map((each) => {
                 let c = undefined;
                 if (result?.colors?.[each]) {
                   c = result?.colors?.[each];
                 }
+                const highlighted = wordsCombine.has(each);
                 return (
-                  <Grid xs={2} item sx={{ background: c }} key={each}>
-                    <Box
-                      style={{
-                        margin: "4px",
-                        marginLeft: "8px",
-                        marginRight: "8px",
-                      }}
-                    >
-                      {each}
-                    </Box>
+                  <Grid
+                    xs={2}
+                    item
+                    sx={{
+                      background: c,
+                      borderRadius: 1,
+                      border: highlighted ? null : "1px solid black",
+                      cursor: "pointer",
+                    }}
+                    key={each + i + Math.random() + c + highlighted}
+                  >
+                    <Tooltip title={getAllRhymes(each)}>
+                      <Box
+                        style={{
+                          margin: "4px",
+                          marginLeft: "8px",
+                          marginRight: "8px",
+                        }}
+                        onClick={() => addWord(each)}
+                      >
+                        {each}
+                      </Box>
+                    </Tooltip>
                   </Grid>
                 );
               })}
@@ -71,7 +214,6 @@ function App() {
           );
         })}
       </Box>
-
     </Box>
   );
 }

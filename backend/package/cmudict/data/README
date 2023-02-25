@@ -1,6 +1,4 @@
-
-CMUdict
--------
+## CMUdict
 
 CMUdict (the Carnegie Mellon Pronouncing Dictionary) is a free
 pronouncing dictionary of English, suitable for uses in speech
@@ -19,8 +17,8 @@ We welcome input from users: Please send email to Alex Rudnicky
 
 The Carnegie Mellon Pronouncing Dictionary, in its current and
 previous versions is Copyright (C) 1993-2014 by Carnegie Mellon
-University.  Use of this dictionary for any research or commercial
-purpose is completely unrestricted.  If you make use of or
+University. Use of this dictionary for any research or commercial
+purpose is completely unrestricted. If you make use of or
 redistribute this material we request that you acknowledge its
 origin in your descriptions.
 
@@ -29,4 +27,3 @@ dictionary, we would appreciate it if you could send these additions
 and corrections to us (air+cmudict@cs.cmu.edu) for consideration in a
 subsequent version. All submissions will be reviewed and approved by
 the current maintainer, Alex Rudnicky at Carnegie Mellon.
-
